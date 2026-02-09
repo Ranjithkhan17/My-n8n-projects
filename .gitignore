@@ -9,6 +9,8 @@ secrets/
 # Sensitive workflow files
 workflow.json
 **/workflow.json
+**/AI Chat Agent*.json
+!**/*.template*
 
 # Node modules
 node_modules/
