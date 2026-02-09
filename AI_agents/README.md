@@ -9,6 +9,10 @@ This workflow creates an AI-powered chat agent that uses local language models v
 - 🦙 **Ollama Integration**: Uses local Ollama models for language processing
 - 💬 **Conversations**: Enables multi-turn conversations with AI
 
+## Workflow Diagram
+
+![AI Agent Workflow](AI%20agents.png)
+
 ## Prerequisites
 
 1. **Ollama** installed and running locally
