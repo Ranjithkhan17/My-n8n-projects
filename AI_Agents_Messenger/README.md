@@ -37,7 +37,7 @@ This project showcases an AI-powered automation workflow built using n8n that:
 
 ## 🧠 Workflow Architecture
 
-![Workflow Diagram]AI_Agents_Messenger/workflow_diagram.png
+![Workflow Diagram]https://github.com/Ranjithkhan17/My-n8n-projects/blob/main/AI_Agents_Messenger/workflow_diagram.png
 
 ### Workflow Nodes:
 
@@ -172,5 +172,6 @@ Automation Engineer | DevOps | AI Workflow Builder
 **Last Updated:** February 2026  
 **Status:** ✅ Production Ready 
 >>>>>>> df3ea9a (Motivational AI_agents)
+
 
 
