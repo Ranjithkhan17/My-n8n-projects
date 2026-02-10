@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # n8n Credentials & Secrets
 credentials.json
 *.credentials.json
@@ -31,3 +32,16 @@ Thumbs.db
 # Build artifacts
 dist/
 build/
+=======
+# n8n sensitive workflows
+*.json
+!*.json.template
+
+# Environment files
+.env
+.env.*
+
+# OS / Editor
+.vscode/
+.DS_Store
+>>>>>>> 3ab7a98 (Add AI Agent n8n workflow with Ollama, Telegram and memory)
