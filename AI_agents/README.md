@@ -62,3 +62,7 @@ ollama pull llama3.2:1b
 - **Ollama Connection Error**: Ensure Ollama is running on `http://localhost:11434`
 - **Model Not Found**: Run `ollama pull <model-name>` in terminal
 - **Memory Issues**: Reduce model size if experiencing performance problems
+
+## 👤 Author
+**Ranjithkumar**  
+Automation Engineer | DevOps | n8n Specialist
