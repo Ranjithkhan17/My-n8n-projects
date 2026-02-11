@@ -1,28 +1,7 @@
-# 🚀 n8n Automation Projects
 
-This repository contains real-world automation workflows built using **n8n**.
-
-## 🔧 Skills Covered
-- Webhooks & Form Triggers
-- Google Workspace Automation
-- Email Notifications
-- API Integrations
-- No-Code / Low-Code Automation
-
-## 📂 Projects
-| Project | Description |
-|-------|------------|
-| Form → Sheet → Email | Stores form data in Google Sheets and sends acknowledgement email |
-
-## 👤 Author
-**Ranjithkumar**  
-Automation Engineer | DevOps | n8n Specialist
-=======
-# 🤖 AI Agent Automation using n8n, Ollama & Telegram
+## 🤖 AI Agent Automation using n8n, Ollama & Telegram
 
 Production-ready AI Agent workflow built with n8n. Demonstrates Agentic AI, local LLM integration (Ollama), chat memory, Telegram bot automation, and Google Sheets logging.
-
----
 
 ## 📌 Project Overview
 
@@ -127,7 +106,7 @@ ollama pull llama3.2:1b
 
 ## 📁 Project Structure
 
-```
+
 AI_agents_messenger/
 ├── README.md                              # This file
 ├── workflow_diagram.png                   # Visual workflow architecture
@@ -172,6 +151,7 @@ Automation Engineer | DevOps | AI Workflow Builder
 **Last Updated:** February 2026  
 **Status:** ✅ Production Ready 
 >>>>>>> df3ea9a (Motivational AI_agents)
+
 
 
 
