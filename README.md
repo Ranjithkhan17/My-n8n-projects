@@ -29,12 +29,10 @@ The system:
 
 ---
 
-## 🧠 Architecture
+## 🧠 Workflow_daigram
 
-Telegram Trigger  
-→ AI Agent (Ollama)  
-→ JSON Parser (Code Node)  
-→ Google Sheets (Append Row)
+<img width="1251" height="486" alt="architect_daigram" src="https://github.com/user-attachments/assets/ddde31e5-086a-4b0b-a211-639af6f9d2dc" />
+
 
 ---
 
