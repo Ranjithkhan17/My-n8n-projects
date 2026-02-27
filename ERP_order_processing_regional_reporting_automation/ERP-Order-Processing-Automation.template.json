@@ -1,0 +1,101 @@
+{
+  "name": "ERP Order Processing & Regional Reporting Automation (Template)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-976, -272],
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "url": "REPLACE_WITH_YOUR_ERP_WEBHOOK_URL",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "unique_id",
+              "value": "REPLACE_WITH_YOUR_UNIQUE_ID"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-768, -400],
+      "name": "Fetch Orders (HTTP Request)",
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": "REPLACE_WITH_YOUR_AIRTABLE_BASE_ID",
+        "table": "REPLACE_WITH_YOUR_TABLE_ID"
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [-768, -96],
+      "name": "Search Customers",
+      "credentials": {
+        "airtableTokenApi": {
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [-528, -288],
+      "name": "Merge Orders & Customers"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "orderPrice",
+              "order": "descending"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [-320, -288],
+      "name": "Sort by Order Price"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "leftValue": "={{ $json.region }}",
+              "rightValue": "Americas",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [-144, -512],
+      "name": "Filter Americas Region"
+    }
+  ],
+  "connections": {},
+  "active": false
+}

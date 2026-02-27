@@ -1,0 +1,132 @@
+{
+  "name": "AI Agent Automation using n8n + Ollama + Telegram (Template)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [240, -96],
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "topic",
+              "value": "consistency",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [464, -96],
+      "name": "Set Topic"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Create a motivational message about {{$json.topic}}.\n\nRules:\n- Create only one message\n- Do not repeat previous message\n- Keep it short and powerful",
+        "hasOutputParser": false
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [672, -96],
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:1b"
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [640, 160],
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.topic }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [784, 144],
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "chatId": "REPLACE_WITH_YOUR_CHAT_ID",
+        "text": "={{ $json.output }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1008, -64],
+      "name": "Send Telegram Message",
+      "credentials": {
+        "telegramApi": {
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "REPLACE_WITH_YOUR_GOOGLE_SHEET_ID",
+        "sheetName": "motivational_message",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Message id": "={{ new Date().toISOString() }}",
+            "Message": "={{ $json.output }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [1232, -64],
+      "name": "Append to Google Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [[{ "node": "Set Topic", "type": "main", "index": 0 }]]
+    },
+    "Set Topic": {
+      "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Simple Memory": {
+      "ai_memory": [[{ "node": "AI Agent", "type": "ai_memory", "index": 0 }]]
+    },
+    "AI Agent": {
+      "main": [[{ "node": "Send Telegram Message", "type": "main", "index": 0 }]]
+    },
+    "Send Telegram Message": {
+      "main": [[{ "node": "Append to Google Sheet", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false
+}
