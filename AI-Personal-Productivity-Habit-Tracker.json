@@ -1,0 +1,97 @@
+{
+  "name": "AI Personal Productivity + Habit Tracker (Template)",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message"]
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [-608, -288],
+      "name": "Telegram Trigger",
+      "credentials": {
+        "telegramApi": {
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "You are a productivity assistant.\n\nExtract structured data from this message.\n\nReturn only valid JSON in this format:\n\n{\n  \"workout_done\": true/false,\n  \"sugar_level\": number or null,\n  \"study_topic\": \"string or null\",\n  \"study_duration_minutes\": number or null,\n  \"content_created\": true/false,\n  \"notes\": \"short summary\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [-352, -288],
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:1b"
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [-496, -80],
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output;\n\ntry {\n  const parsed = JSON.parse(raw);\n  parsed.sugar_level = parsed.sugar_level ? Number(parsed.sugar_level) : null;\n  parsed.study_duration_minutes = parsed.study_duration_minutes ? Number(parsed.study_duration_minutes) : null;\n  return [parsed];\n} catch (error) {\n  throw new Error('Failed to parse AI JSON output');\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [0, -288],
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "REPLACE_WITH_YOUR_SHEET_ID",
+        "sheetName": "HabitTracker",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Workout": "={{ $json.workout_done }}",
+            "Sugar": "={{ $json.sugar_level }}",
+            "Study Topic": "={{ $json.study_topic }}",
+            "Study Minutes": "={{ $json.study_duration_minutes }}",
+            "Content": "={{ $json.content_created }}",
+            "Notes": "={{ $json.notes }}",
+            "Date": "={{ new Date($node[\"Telegram Trigger\"].json.message.date * 1000).toLocaleString(\"en-IN\", { timeZone: \"Asia/Kolkata\" }) }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [224, -288],
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "AI Agent": {
+      "main": [[{ "node": "Code in JavaScript", "type": "main", "index": 0 }]]
+    },
+    "Code in JavaScript": {
+      "main": [[{ "node": "Append row in sheet", "type": "main", "index": 0 }]]
+    }
+  }
+}
