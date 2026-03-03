@@ -118,9 +118,9 @@ YouTube Channel: **RK TechLearning**
 
 ## 📫 Let's Connect
 
-- 💼 LinkedIn: (Add your LinkedIn link here)
-- 📧 Email: (Add your professional email)
-- 🌍 Portfolio: (If available)
+- 💼 LinkedIn: https://www.linkedin.com/in/ranjith-kumar-devopsengineer/?isSelfProfile=true
+- 📧 Email: ranjithkumar.khan@gmail.com
+
 
 ---
 
