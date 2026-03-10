@@ -19,14 +19,8 @@ This automation:
 
 ---
 
-## 🧠 Architecture
-
-Manual Trigger  
-→ HTTP Request (ERP Orders)  
-→ Airtable (Customer Data)  
-→ Merge (Join by Customer ID)  
-→ Sort (Descending by orderPrice)  
-→ IF (Region = Americas)  
+## 🧠 Workflow_diagram
+<img width="1378" height="641" alt="image" src="https://github.com/user-attachments/assets/993e4641-ce21-409f-924d-36252c7a6f73" />
 
 ### High-Value Orders Path:
 → Convert to JSON File  

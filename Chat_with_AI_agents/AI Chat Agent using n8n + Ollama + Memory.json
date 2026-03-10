@@ -39,11 +39,11 @@
       ],
       "id": "dee48991-4112-446d-a464-c0233e9b3372",
       "name": "When chat message received",
-      "webhookId": "a2b8b4f5-cfa8-4e5a-a354-6cd7f9992f91"
+      "webhookId": "YOUR_CHAT_WEBHOOK_ID_HERE"
     },
     {
       "parameters": {
-        "model": "=llama3.2:1b",
+        "model": "llama3.2:1b",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
@@ -56,7 +56,7 @@
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
-          "id": "mG4YqekOBjzuD07P",
+          "id": "YOUR_OLLAMA_CREDENTIAL_ID",
           "name": "Ollama account"
         }
       },
@@ -104,12 +104,12 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "12b32154-50c8-4f8e-94a4-b288037cd63e",
+  "versionId": "YOUR_VERSION_ID_HERE",
   "meta": {
     "templateId": "1954",
     "templateCredsSetupCompleted": true,
-    "instanceId": "e60eb98946c5fdd797e22b6e489cd31fe321eda94d6ea4b8613b24037af51626"
+    "instanceId": "YOUR_INSTANCE_ID_HERE"
   },
-  "id": "KGTsJpccOqaTlHheT4gKN",
+  "id": "YOUR_WORKFLOW_ID_HERE",
   "tags": []
 }
