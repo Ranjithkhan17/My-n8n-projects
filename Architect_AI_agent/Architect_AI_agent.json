@@ -1,0 +1,118 @@
+{
+  "name": "AI Architect Diagram Generator (Gemini + n8n)",
+  "nodes": [
+    {
+      "parameters": {
+        "availableInChat": true,
+        "agentName": "Chat with Gemini"
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [-400, -32],
+      "name": "When chat message received",
+      "webhookId": "REPLACE_WITH_YOUR_WEBHOOK"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a Senior Cloud Architect. Generate ONLY raw Mermaid.js code using flowchart syntax.\n\nStyling Rules:\n\nDirection: Use flowchart TD for infrastructure or flowchart LR for data flows.\n\nSubgraphs: When using subgraph, always include direction TB on the first line inside the subgraph to ensure components align correctly.\n\nColors:\nGCP: fill:#4285F4,stroke:#333,stroke-width:2px,color:#fff\nAWS: fill:#FF9900,stroke:#333,stroke-width:2px,color:#fff\nDatabase: fill:#34A853,stroke:#333,color:#fff\n\nShapes:\nUse [(Database Name)] for databases and [[Service Name]] for process/subroutines.\n\nOutput Constraints:\nOutput ONLY the raw Mermaid code.\nNO markdown backticks.\nNO explanations."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [-200, -32],
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro"
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [-224, 144],
+      "name": "Google Gemini Chat Model",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [-96, 160],
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://kroki.io/mermaid/png",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "text/plain",
+        "body": "={{ $json.output }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [160, -32],
+      "name": "Generate Diagram (Kroki API)"
+    },
+    {
+      "parameters": {
+        "name": "architecture-diagram.png",
+        "driveId": "My Drive",
+        "folderId": "REPLACE_WITH_GOOGLE_DRIVE_FOLDER_ID"
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [368, -32],
+      "name": "Upload to Google Drive",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "REPLACE_WITH_GOOGLE_DOC_ID",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "--------------------------------------------------\nDate: {{ $now.format('yyyy-MM-dd HH:mm') }}\nGenerated Architecture Diagram:\n{{ $node[\"Upload to Google Drive\"].json.webViewLink }}\n--------------------------------------------------"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [576, -32],
+      "name": "Update Google Docs",
+      "credentials": {}
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Simple Memory": {
+      "ai_memory": [[{ "node": "AI Agent", "type": "ai_memory", "index": 0 }]]
+    },
+    "AI Agent": {
+      "main": [[{ "node": "Generate Diagram (Kroki API)", "type": "main", "index": 0 }]]
+    },
+    "Generate Diagram (Kroki API)": {
+      "main": [[{ "node": "Upload to Google Drive", "type": "main", "index": 0 }]]
+    },
+    "Upload to Google Drive": {
+      "main": [[{ "node": "Update Google Docs", "type": "main", "index": 0 }]]
+    }
+  }
+}
