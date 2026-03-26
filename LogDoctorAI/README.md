@@ -22,6 +22,9 @@ It helps engineers quickly identify issues like:
 
 🏗️ Architecture
 
+<img width="1570" height="467" alt="image" src="https://github.com/user-attachments/assets/2669e356-46fd-48ba-9ef1-12c730b88a7a" />
+
+
 
 🧪 Sample Input
 
