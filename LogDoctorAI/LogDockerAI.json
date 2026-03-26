@@ -1,0 +1,101 @@
+{
+  "name": "LogDoctor AI",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "logs"
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-800, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "logs",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-node",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [-600, 0]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are a senior Linux + DevOps engineer.\n\nAnalyze logs and return JSON:\n{\n\"summary\":\"\",\n\"root_cause\":\"\",\n\"severity\":\"\",\n\"fix\":\"\",\n\"prevention\":\"\"\n}\n\nLogs:\n{{ $json.logs }}"
+      },
+      "id": "ai-node",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [-400, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = JSON.parse($json.output);\nreturn [{...data}];"
+      },
+      "id": "code-node",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-200, 0]
+    },
+    {
+      "parameters": {
+        "title": "=Linux Log Report - {{$now}}"
+      },
+      "id": "create-doc",
+      "name": "Create Document",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "🚨 Linux Log Analysis Report\n\nSummary: {{$json.summary}}\n\nRoot Cause: {{$json.root_cause}}\n\nSeverity: {{$json.severity}}\n\nFix: {{$json.fix}}\n\nPrevention: {{$json.prevention}}"
+            }
+          ]
+        }
+      },
+      "id": "update-doc",
+      "name": "Update Document",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [200, 0]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "Edit Fields", "type": "main", "index": 0 }]]
+    },
+    "Edit Fields": {
+      "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]]
+    },
+    "AI Agent": {
+      "main": [[{ "node": "Code", "type": "main", "index": 0 }]]
+    },
+    "Code": {
+      "main": [[{ "node": "Create Document", "type": "main", "index": 0 }]]
+    },
+    "Create Document": {
+      "main": [[{ "node": "Update Document", "type": "main", "index": 0 }]]
+    }
+  }
+}
