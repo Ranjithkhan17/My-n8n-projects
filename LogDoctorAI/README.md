@@ -27,10 +27,16 @@ It helps engineers quickly identify issues like:
 
 
 🧪 Sample Input
+<img width="728" height="177" alt="image" src="https://github.com/user-attachments/assets/1d6340eb-e455-4c48-97fa-c75e840146f0" />
+
 
 📤 Sample Output
 
+<img width="1462" height="972" alt="image" src="https://github.com/user-attachments/assets/dfc1d609-90a1-4ffb-b49a-f3d4ca2367c5" />
+
+
 Video refrence
+https://youtu.be/_xl-SCJLF8s
 
 ----------------------------------------------------------
 ⚙️ Setup Instructions
