@@ -14,27 +14,10 @@ The workflow will:
 3. Upload it to **Google Drive**
 4. Log the result in **Google Docs**
 
----
+# 🚀 Workflow Diagram
 
-# 🚀 Architecture
+<img width="1237" height="443" alt="image" src="https://github.com/user-attachments/assets/cfd61857-9b49-4a86-bca6-a125b9ea3cd3" />
 
-User Prompt  
-↓  
-n8n Chat Trigger  
-↓  
-Gemini 2.5 Pro (AI Agent)  
-↓  
-Mermaid Diagram Code  
-↓  
-Kroki API (Diagram Rendering)  
-↓  
-PNG Architecture Diagram  
-↓  
-Google Drive Upload  
-↓  
-Google Docs Documentation
-
----
 
 # ⚙️ Technologies Used
 
@@ -45,8 +28,6 @@ Google Docs Documentation
 - **Google Drive API** – File storage
 - **Google Docs API** – Documentation logging
 
----
-
 # 🧩 Workflow Overview
 
 ### 1️⃣ Chat Trigger
@@ -54,9 +35,8 @@ Receives architecture request from user.
 
 Example:
 
-Create a web app with load balancer, 3 web servers and a MySQL database.
+Create AWS architecture with ALB, EC2 Auto Scaling and RDS
 
----
 
 ### 2️⃣ AI Agent (Gemini)
 
@@ -64,11 +44,12 @@ The AI agent acts as a **Senior Cloud Architect** and generates **Mermaid.js cod
 
 Example output:
 
+<img width="983" height="862" alt="image" src="https://github.com/user-attachments/assets/5b6d9de0-6468-4e68-b75d-d16c6cb48747" />
 
 
 
 
----
+
 
 ### 3️⃣ Kroki API
 
@@ -78,13 +59,9 @@ https://kroki.io/mermaid/png
 
 This API converts the Mermaid code into a **PNG architecture diagram**.
 
----
-
 ### 4️⃣ Google Drive
 
 The generated diagram is uploaded automatically to a **Google Drive folder**.
-
----
 
 ### 5️⃣ Google Docs
 
@@ -95,7 +72,6 @@ A log entry is added to a Google Docs file containing:
 
 This helps maintain **architecture documentation automatically**.
 
----
 
 3️⃣ Configure credentials
 
@@ -104,8 +80,6 @@ Required credentials:
 - Google Gemini API
 - Google Drive OAuth
 - Google Docs OAuth
-
----
 
 # 💡 Example Prompts
 
@@ -117,7 +91,6 @@ Create AWS architecture with ALB, EC2 Auto Scaling and RDS.
 
 Create a GCP architecture with Cloud Run and Firestore.
 
----
 
 # 🎯 Use Cases
 
@@ -127,15 +100,12 @@ Create a GCP architecture with Cloud Run and Firestore.
 • AI-powered DevOps tools  
 • Developer productivity automation  
 
----
-
 # 👨‍💻 Author
 
-**Ranjith Kumar**
+*Ranjith Kumar*
 
 DevOps Engineer | Cloud Automation | AI Workflows
 
-GitHub: https://github.com/YOUR_GITHUB
 
 ---
 
